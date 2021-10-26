@@ -26,6 +26,7 @@
             <?php if(isset($_SESSION) && isset($_SESSION["loggedin"])){
                     echo '<td>Hello</td>';
                     echo '<td>'.$_SESSION['first_name'].'</td>';
+                    echo '<td><a href="article.php">New entry</a></td>';
                     echo '<td><a href="logout.php">logout</a></td>';
                 
                 }else{
