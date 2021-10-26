@@ -1,7 +1,12 @@
 <?php
+require_once "header.php";
 
 // Include config file
 require_once "connect.php";
+
+if($_SESSION["user_type"] != "admin"){
+    header("location: index.php");
+}
  
 // Define variables and initialize with empty values
 $title = $description= "";
@@ -31,8 +36,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($title_err) && empty($description_err)){
         echo "now i need to start adding article";
+        echo $_SESSION["id"];
         // Prepare a select statement
-        $sql = 'INSERT INTO article (title, description) VALUES ("'.$title.'", "'.$description.'")';
+        $sql = 'INSERT INTO article (title, description, created_by) VALUES ("'.$title.'", "'.$description.'", '.$_SESSION["id"].')';
         if ($conn->query($sql) === FALSE) {
            echo "Error: " . $sql . "<br>" . $conn->error; 
         }else{

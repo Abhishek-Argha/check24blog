@@ -24,16 +24,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $password = trim($_POST["password"]);
     }
 
-    echo "Email: ";
-    echo $email;
-    echo "<br/>Pass: ";
-    echo $password;
     // Validate credentials
     if(empty($email_err) && empty($password_err)){
         echo "email pass no errors";
         // Prepare a select statement
-        $sql = "SELECT id, first_name, last_name, email, password FROM user WHERE email = ?";
-        //$sql = "SELECT * FROM user WHERE email = ?";
+        $sql = "SELECT id, first_name, last_name, email, password, user_type FROM user WHERE email = ?";
         
         if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -50,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){             
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $first_name, $last_name, $user_email, $user_password);
+                    mysqli_stmt_bind_result($stmt, $id, $first_name, $last_name, $user_email, $user_password, $user_type);
                     if(mysqli_stmt_fetch($stmt)){
 
                         if($password == $user_password){
@@ -62,6 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["id"] = $id;
                             $_SESSION["email"] = $email;
                             $_SESSION["first_name"] = $first_name;
+                            $_SESSION["user_type"] = $user_type;
                             
                             // Redirect user to welcome page
                             header("location: index.php");
