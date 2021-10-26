@@ -1,3 +1,1 @@
-<?php
-    echo 'Hello Worrld';
-?>
+<?php require_once "header.php"; ?>
